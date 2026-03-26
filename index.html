@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Canadian income tax calculator for Alberta residents. Calculate federal and provincial taxes, marginal and average tax rates.">
+  <title>Canadian Tax Calculator — Alberta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-icon">🍁</div>
+      <h1>Canadian Tax Calculator</h1>
+      <p class="subtitle">Federal + Alberta Provincial — 2026 Tax Year</p>
+    </header>
+
+    <!-- Income Input Card -->
+    <section class="card input-card" id="input-section">
+      <h2>Your Income</h2>
+
+      <!-- Income Type Selector -->
+      <div class="income-type-selector">
+        <button class="type-btn active" data-type="yearly" id="btn-yearly">Annual Salary</button>
+        <button class="type-btn" data-type="hourly" id="btn-hourly">Hourly Wage</button>
+        <button class="type-btn" data-type="monthly" id="btn-monthly">Monthly</button>
+        <button class="type-btn" data-type="biweekly" id="btn-biweekly">Biweekly</button>
+      </div>
+
+      <!-- Income Amount -->
+      <div class="input-group main-input">
+        <label for="income-amount" id="income-label">Annual Salary</label>
+        <div class="input-wrapper">
+          <span class="currency-prefix">$</span>
+          <input type="number" id="income-amount" placeholder="0.00" min="0" step="0.01" autofocus>
+        </div>
+      </div>
+
+      <!-- Hourly Options (hidden by default) -->
+      <div class="hourly-options hidden" id="hourly-options">
+        <div class="input-group half">
+          <label for="hours-per-week">Hours / Week</label>
+          <input type="number" id="hours-per-week" value="40" min="1" max="168" step="0.5">
+        </div>
+        <div class="input-group half">
+          <label for="weeks-per-year">Weeks / Year</label>
+          <input type="number" id="weeks-per-year" value="52" min="1" max="52" step="1">
+        </div>
+      </div>
+
+      <button class="calculate-btn" id="calculate-btn">
+        <span>Calculate Taxes</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results hidden" id="results-section">
+
+      <!-- Summary Cards -->
+      <div class="summary-grid">
+        <div class="card summary-card gross">
+          <span class="summary-label">Gross Income</span>
+          <span class="summary-value" id="res-gross">$0</span>
+        </div>
+        <div class="card summary-card tax">
+          <span class="summary-label">Total Tax</span>
+          <span class="summary-value" id="res-total-tax">$0</span>
+        </div>
+        <div class="card summary-card net">
+          <span class="summary-label">After-Tax Income</span>
+          <span class="summary-value" id="res-net">$0</span>
+        </div>
+      </div>
+
+      <!-- Rate Cards -->
+      <div class="rate-grid">
+        <div class="card rate-card">
+          <span class="rate-label">Marginal Tax Rate</span>
+          <span class="rate-value" id="res-marginal">0%</span>
+          <span class="rate-sublabel">Combined federal + provincial rate on your next dollar</span>
+        </div>
+        <div class="card rate-card">
+          <span class="rate-label">Average Tax Rate</span>
+          <span class="rate-value" id="res-average">0%</span>
+          <span class="rate-sublabel">Effective rate — total tax ÷ gross income</span>
+        </div>
+      </div>
+
+      <!-- Federal Breakdown -->
+      <div class="card breakdown-card">
+        <h3>Federal Tax Breakdown</h3>
+        <div class="breakdown-summary" id="fed-summary"></div>
+        <table class="bracket-table" id="fed-table">
+          <thead>
+            <tr><th>Bracket</th><th>Rate</th><th>Taxable</th><th>Tax</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Provincial Breakdown -->
+      <div class="card breakdown-card">
+        <h3>Alberta Provincial Tax Breakdown</h3>
+        <div class="breakdown-summary" id="prov-summary"></div>
+        <table class="bracket-table" id="prov-table">
+          <thead>
+            <tr><th>Bracket</th><th>Rate</th><th>Taxable</th><th>Tax</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Per-Period Breakdown -->
+      <div class="card breakdown-card">
+        <h3>Income Per Period</h3>
+        <table class="bracket-table" id="period-table">
+          <thead>
+            <tr><th>Period</th><th>Gross</th><th>Tax</th><th>Net</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <button class="reset-btn" id="reset-btn">← Start Over</button>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <p>For informational purposes only. Does not include CPP, EI, or other deductions. Consult a tax professional for advice.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
